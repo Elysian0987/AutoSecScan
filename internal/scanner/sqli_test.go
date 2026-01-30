@@ -64,9 +64,9 @@ func TestScanSQLi(t *testing.T) {
 
 func TestDetectSQLError(t *testing.T) {
 	tests := []struct {
-		name     string
-		body     string
-		wantErr  bool
+		name    string
+		body    string
+		wantErr bool
 	}{
 		{
 			name:    "MySQL syntax error",
@@ -161,7 +161,7 @@ func TestExtractParameters(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			params := extractParameters(tt.urlStr)
-			
+
 			if len(params) != tt.wantCount {
 				t.Errorf("Parameter count = %d, want %d", len(params), tt.wantCount)
 			}
@@ -184,33 +184,33 @@ func TestExtractParameters(t *testing.T) {
 
 func TestIsSignificantChange(t *testing.T) {
 	tests := []struct {
-		name           string
-		baseline       string
-		current        string
+		name            string
+		baseline        string
+		current         string
 		wantSignificant bool
 	}{
 		{
-			name:           "Identical responses",
-			baseline:       "Hello World",
-			current:        "Hello World",
+			name:            "Identical responses",
+			baseline:        "Hello World",
+			current:         "Hello World",
 			wantSignificant: false,
 		},
 		{
-			name:           "Significantly different lengths",
-			baseline:       "Short",
-			current:        strings.Repeat("Very long response ", 100),
+			name:            "Significantly different lengths",
+			baseline:        "Short",
+			current:         strings.Repeat("Very long response ", 100),
 			wantSignificant: true,
 		},
 		{
-			name:           "Slightly different lengths",
-			baseline:       "Hello World",
-			current:        "Hello World!",
+			name:            "Slightly different lengths",
+			baseline:        "Hello World",
+			current:         "Hello World!",
 			wantSignificant: false,
 		},
 		{
-			name:           "One empty response",
-			baseline:       strings.Repeat("Normal response ", 10),
-			current:        "",
+			name:            "One empty response",
+			baseline:        strings.Repeat("Normal response ", 10),
+			current:         "",
 			wantSignificant: true,
 		},
 	}

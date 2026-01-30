@@ -10,11 +10,11 @@ import (
 
 func TestScanHeaders(t *testing.T) {
 	tests := []struct {
-		name         string
-		headers      map[string]string
-		wantScore    int
-		wantMissing  int
-		wantPresent  int
+		name        string
+		headers     map[string]string
+		wantScore   int
+		wantMissing int
+		wantPresent int
 	}{
 		{
 			name: "All security headers present",
@@ -185,7 +185,7 @@ func TestCalculateHeaderScore(t *testing.T) {
 				PresentHeaders: tt.present,
 			}
 			calculateHeaderScore(result)
-			
+
 			if result.Score != tt.wantScore {
 				t.Errorf("Score = %d, want %d", result.Score, tt.wantScore)
 			}

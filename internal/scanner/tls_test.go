@@ -134,11 +134,11 @@ func TestIssueToVulnerability(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			vuln := issueToVulnerability(tt.issue)
-			
+
 			if vuln.Severity != tt.wantSeverity {
 				t.Errorf("Severity = %s, want %s", vuln.Severity, tt.wantSeverity)
 			}
-			
+
 			if vuln.Description != tt.issue {
 				t.Errorf("Description = %s, want %s", vuln.Description, tt.issue)
 			}

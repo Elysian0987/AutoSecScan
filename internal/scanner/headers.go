@@ -96,7 +96,7 @@ func ScanHeaders(target *models.TargetInfo) (*models.HeaderScan, error) {
 	// Analyze security headers
 	for _, headerDef := range securityHeaders {
 		value, exists := resp.Header[headerDef.Name]
-		
+
 		if !exists {
 			scan.MissingHeaders = append(scan.MissingHeaders, models.SecurityHeader{
 				Name:        headerDef.Name,
@@ -107,7 +107,7 @@ func ScanHeaders(target *models.TargetInfo) (*models.HeaderScan, error) {
 			})
 		} else {
 			headerValue := strings.Join(value, "; ")
-			
+
 			// Check if header value is weak
 			if isWeakHeader(headerDef.Name, headerValue) {
 				scan.WeakHeaders = append(scan.WeakHeaders, models.SecurityHeader{
@@ -211,7 +211,7 @@ func GetHeaderRecommendations(scan *models.HeaderScan) []string {
 	for _, header := range scan.MissingHeaders {
 		switch header.Name {
 		case "Strict-Transport-Security":
-			recommendations = append(recommendations, 
+			recommendations = append(recommendations,
 				"Add HSTS header: Strict-Transport-Security: max-age=31536000; includeSubDomains; preload")
 		case "Content-Security-Policy":
 			recommendations = append(recommendations,

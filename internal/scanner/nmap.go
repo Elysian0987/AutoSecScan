@@ -35,10 +35,10 @@ type NmapPorts struct {
 
 // NmapPort represents a single port
 type NmapPort struct {
-	Protocol string       `xml:"protocol,attr"`
-	PortID   int          `xml:"portid,attr"`
-	State    NmapState    `xml:"state"`
-	Service  NmapService  `xml:"service"`
+	Protocol string      `xml:"protocol,attr"`
+	PortID   int         `xml:"portid,attr"`
+	State    NmapState   `xml:"state"`
+	Service  NmapService `xml:"service"`
 }
 
 // NmapState represents port state
@@ -66,11 +66,11 @@ func ScanNmap(target *models.TargetInfo, timeout time.Duration) (*models.NmapSca
 	// Build nmap command
 	// Using -Pn (skip ping), -sV (version detection), -T4 (faster), --top-ports 1000
 	args := []string{
-		"-Pn",              // Skip host discovery
-		"-sV",              // Service version detection
-		"-T4",              // Faster timing template
+		"-Pn",                 // Skip host discovery
+		"-sV",                 // Service version detection
+		"-T4",                 // Faster timing template
 		"--top-ports", "1000", // Scan top 1000 ports
-		"-oX", "-",         // Output XML to stdout
+		"-oX", "-", // Output XML to stdout
 		target.Domain,
 	}
 
@@ -78,7 +78,7 @@ func ScanNmap(target *models.TargetInfo, timeout time.Duration) (*models.NmapSca
 
 	// Execute nmap with timeout
 	cmd := exec.Command("nmap", args...)
-	
+
 	// Set timeout
 	if timeout > 0 {
 		time.AfterFunc(timeout, func() {

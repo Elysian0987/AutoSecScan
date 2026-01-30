@@ -165,7 +165,7 @@ func createMockSecureServer() *httptest.Server {
 		w.Header().Set("Referrer-Policy", "no-referrer")
 		w.Header().Set("Permissions-Policy", "geolocation=()")
 		w.Header().Set("X-XSS-Protection", "1; mode=block")
-		
+
 		w.Header().Set("Content-Type", "text/html")
 		w.Write([]byte("<html><body>Welcome to the secure test site</body></html>"))
 	}))
@@ -193,7 +193,7 @@ func TestIntegrationErrorHandling(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			result := orchestrator.RunSecurityScan(tt.url)
-			
+
 			// Should still return a result (may have errors in individual scans)
 			if result == nil {
 				t.Logf("%s: RunSecurityScan returned nil (expected)", tt.expect)

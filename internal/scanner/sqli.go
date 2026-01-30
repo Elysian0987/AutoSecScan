@@ -65,7 +65,7 @@ func ScanSQLi(target *models.TargetInfo) ([]models.Vulnerability, error) {
 	}
 
 	queryParams := parsedURL.Query()
-	
+
 	// If no query parameters, try common parameter names
 	if len(queryParams) == 0 {
 		utils.Debug("No query parameters found, testing common parameter names")

@@ -57,14 +57,14 @@ func RunSecurityScan(target *models.TargetInfo, options ScanOptions) (*models.Sc
 
 	// Create wait group for concurrent execution
 	var wg sync.WaitGroup
-	
+
 	// Mutex for thread-safe error collection
 	var mu sync.Mutex
 
 	// Track completed scans
 	totalScans := 0
 	completedScans := 0
-	
+
 	// Count how many scans we'll run
 	if !options.SkipHeaders {
 		totalScans++
@@ -96,9 +96,9 @@ func RunSecurityScan(target *models.TargetInfo, options ScanOptions) (*models.Sc
 		go func() {
 			defer wg.Done()
 			options.Progress.UpdateStatus("Scanning HTTP security headers...")
-			
+
 			headerScan, err := scanner.ScanHeaders(target)
-			
+
 			mu.Lock()
 			if err != nil {
 				utils.Error("Headers scan failed: %v", err)
@@ -108,7 +108,7 @@ func RunSecurityScan(target *models.TargetInfo, options ScanOptions) (*models.Sc
 				utils.Info("Headers scan complete (Score: %d/100)", headerScan.SecurityScore)
 			}
 			mu.Unlock()
-			
+
 			updateProgress("Security Headers")
 		}()
 	}
@@ -119,9 +119,9 @@ func RunSecurityScan(target *models.TargetInfo, options ScanOptions) (*models.Sc
 		go func() {
 			defer wg.Done()
 			options.Progress.UpdateStatus("Analyzing TLS/SSL configuration...")
-			
+
 			tlsScan, err := scanner.ScanTLS(target)
-			
+
 			mu.Lock()
 			if err != nil {
 				utils.Error("TLS scan failed: %v", err)
@@ -135,7 +135,7 @@ func RunSecurityScan(target *models.TargetInfo, options ScanOptions) (*models.Sc
 				utils.Info("TLS scan complete %s (Score: %d/100)", status, tlsScan.Score)
 			}
 			mu.Unlock()
-			
+
 			updateProgress("TLS/SSL")
 		}()
 	}
@@ -146,9 +146,9 @@ func RunSecurityScan(target *models.TargetInfo, options ScanOptions) (*models.Sc
 		go func() {
 			defer wg.Done()
 			options.Progress.UpdateStatus("Testing for SQL injection vulnerabilities...")
-			
+
 			sqliVulns, err := scanner.ScanSQLi(target)
-			
+
 			mu.Lock()
 			if err != nil {
 				utils.Error("SQLi scan failed: %v", err)
@@ -162,7 +162,7 @@ func RunSecurityScan(target *models.TargetInfo, options ScanOptions) (*models.Sc
 				}
 			}
 			mu.Unlock()
-			
+
 			updateProgress("SQL Injection")
 		}()
 	}
@@ -173,9 +173,9 @@ func RunSecurityScan(target *models.TargetInfo, options ScanOptions) (*models.Sc
 		go func() {
 			defer wg.Done()
 			options.Progress.UpdateStatus("Testing for Cross-Site Scripting (XSS)...")
-			
+
 			xssVulns, err := scanner.ScanXSS(target)
-			
+
 			mu.Lock()
 			if err != nil {
 				utils.Error("XSS scan failed: %v", err)
@@ -189,7 +189,7 @@ func RunSecurityScan(target *models.TargetInfo, options ScanOptions) (*models.Sc
 				}
 			}
 			mu.Unlock()
-			
+
 			updateProgress("XSS")
 		}()
 	}
@@ -200,10 +200,10 @@ func RunSecurityScan(target *models.TargetInfo, options ScanOptions) (*models.Sc
 		go func() {
 			defer wg.Done()
 			options.Progress.UpdateStatus("Running Nmap port scan...")
-			
+
 			nmapTimeout := options.Timeout / 2
 			nmapScan, err := scanner.ScanNmap(target, nmapTimeout)
-			
+
 			mu.Lock()
 			if err != nil {
 				utils.Warn("Nmap scan failed: %v", err)
@@ -213,7 +213,7 @@ func RunSecurityScan(target *models.TargetInfo, options ScanOptions) (*models.Sc
 				utils.Info("Nmap scan complete - Found %d open ports", len(nmapScan.OpenPorts))
 			}
 			mu.Unlock()
-			
+
 			updateProgress("Nmap")
 		}()
 	}

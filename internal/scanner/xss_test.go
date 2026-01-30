@@ -30,7 +30,7 @@ func TestScanXSS(t *testing.T) {
 			// Create test server
 			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				query := r.URL.Query().Get("q")
-				
+
 				if tt.reflectPayload && query != "" {
 					// Reflect the payload back (vulnerable behavior)
 					w.Write([]byte("Search results for: " + query))
@@ -147,7 +147,7 @@ func TestInjectXSSPayload(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			result := injectXSSPayload(tt.urlStr, tt.param, tt.payload)
-			
+
 			if !strings.Contains(result, tt.wantContains) {
 				t.Errorf("Result URL should contain %q, got: %s", tt.wantContains, result)
 			}
@@ -186,7 +186,7 @@ func TestExtractParametersXSS(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			params := extractParameters(tt.urlStr)
-			
+
 			if len(params) != tt.wantCount {
 				t.Errorf("Parameter count = %d, want %d", len(params), tt.wantCount)
 			}

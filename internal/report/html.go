@@ -13,34 +13,34 @@ import (
 
 // TemplateData holds all data for HTML template
 type TemplateData struct {
-	Result           *models.ScanResult
-	GeneratedAt      string
-	RiskColor        string
-	RiskEmoji        string
-	HeaderScore      int
-	TLSScore         int
-	SQLiCount        int
-	XSSCount         int
-	OpenPortsCount   int
-	TotalVulns       int
-	CriticalCount    int
-	HighCount        int
-	MediumCount      int
-	LowCount         int
-	HeaderRecs       []string
-	TLSRecs          []string
-	SQLiRecs         []string
-	XSSRecs          []string
-	PriorityActions  []string
+	Result          *models.ScanResult
+	GeneratedAt     string
+	RiskColor       string
+	RiskEmoji       string
+	HeaderScore     int
+	TLSScore        int
+	SQLiCount       int
+	XSSCount        int
+	OpenPortsCount  int
+	TotalVulns      int
+	CriticalCount   int
+	HighCount       int
+	MediumCount     int
+	LowCount        int
+	HeaderRecs      []string
+	TLSRecs         []string
+	SQLiRecs        []string
+	XSSRecs         []string
+	PriorityActions []string
 }
 
 // GenerateHTML creates an HTML security report
 func GenerateHTML(result *models.ScanResult, filename string) error {
 	tmpl := template.Must(template.New("report").Funcs(template.FuncMap{
-		"truncate":        truncate,
-		"upper":           strings.ToUpper,
-		"severityColor":   getSeverityColor,
-		"severityBadge":   getSeverityBadge,
+		"truncate":      truncate,
+		"upper":         strings.ToUpper,
+		"severityColor": getSeverityColor,
+		"severityBadge": getSeverityBadge,
 	}).Parse(htmlTemplate))
 
 	// Prepare template data

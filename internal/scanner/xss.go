@@ -88,14 +88,14 @@ func ScanXSS(target *models.TargetInfo) ([]models.Vulnerability, error) {
 	if len(queryParams) == 0 {
 		utils.Debug("No query parameters found, testing common parameter names")
 		queryParams = url.Values{
-			"q":        {"test"},
-			"search":   {"test"},
-			"query":    {"test"},
-			"keyword":  {"test"},
-			"name":     {"test"},
-			"comment":  {"test"},
-			"message":  {"test"},
-			"input":    {"test"},
+			"q":       {"test"},
+			"search":  {"test"},
+			"query":   {"test"},
+			"keyword": {"test"},
+			"name":    {"test"},
+			"comment": {"test"},
+			"message": {"test"},
+			"input":   {"test"},
 		}
 	}
 

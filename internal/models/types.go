@@ -42,11 +42,11 @@ type Port struct {
 
 // HeaderScan contains security header analysis
 type HeaderScan struct {
-	Headers         map[string]string
-	MissingHeaders  []SecurityHeader
-	WeakHeaders     []SecurityHeader
-	PresentHeaders  []SecurityHeader
-	SecurityScore   int
+	Headers        map[string]string
+	MissingHeaders []SecurityHeader
+	WeakHeaders    []SecurityHeader
+	PresentHeaders []SecurityHeader
+	SecurityScore  int
 }
 
 // SecurityHeader represents a security header finding
@@ -60,21 +60,21 @@ type SecurityHeader struct {
 
 // TLSScan contains TLS/SSL analysis
 type TLSScan struct {
-	Protocol         string
-	CipherSuite      string
-	Certificate      CertificateInfo
-	Vulnerabilities  []string
-	Score            int
-	IsSecure         bool
+	Protocol        string
+	CipherSuite     string
+	Certificate     CertificateInfo
+	Vulnerabilities []string
+	Score           int
+	IsSecure        bool
 }
 
 // CertificateInfo contains SSL certificate details
 type CertificateInfo struct {
-	Issuer      string
-	Subject     string
-	ValidFrom   time.Time
-	ValidTo     time.Time
-	IsExpired   bool
+	Issuer       string
+	Subject      string
+	ValidFrom    time.Time
+	ValidTo      time.Time
+	IsExpired    bool
 	DaysToExpiry int
 }
 

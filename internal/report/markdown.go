@@ -32,7 +32,7 @@ func buildMarkdownReport(result *models.ScanResult) string {
 
 	// Header
 	sb.WriteString("# 🔒 Security Audit Report\n\n")
-	
+
 	// Metadata
 	sb.WriteString("## 📋 Scan Information\n\n")
 	sb.WriteString(fmt.Sprintf("- **Target URL**: %s\n", result.Target.URL))
@@ -50,13 +50,13 @@ func buildMarkdownReport(result *models.ScanResult) string {
 	if result.HeaderResults != nil {
 		sb.WriteString("\n## 🛡️ Security Headers Analysis\n\n")
 		sb.WriteString(fmt.Sprintf("**Overall Score**: %d/100\n\n", result.HeaderResults.SecurityScore))
-		
+
 		if len(result.HeaderResults.MissingHeaders) > 0 {
 			sb.WriteString("### ❌ Missing Headers\n\n")
 			sb.WriteString("| Header | Severity | Description |\n")
 			sb.WriteString("|--------|----------|-------------|\n")
 			for _, header := range result.HeaderResults.MissingHeaders {
-				sb.WriteString(fmt.Sprintf("| `%s` | %s | %s |\n", 
+				sb.WriteString(fmt.Sprintf("| `%s` | %s | %s |\n",
 					header.Name, strings.ToUpper(header.Severity), header.Description))
 			}
 			sb.WriteString("\n")
@@ -67,7 +67,7 @@ func buildMarkdownReport(result *models.ScanResult) string {
 			sb.WriteString("| Header | Value | Issue |\n")
 			sb.WriteString("|--------|-------|-------|\n")
 			for _, header := range result.HeaderResults.WeakHeaders {
-				sb.WriteString(fmt.Sprintf("| `%s` | `%s` | %s |\n", 
+				sb.WriteString(fmt.Sprintf("| `%s` | `%s` | %s |\n",
 					header.Name, truncate(header.Value, 50), header.Description))
 			}
 			sb.WriteString("\n")
@@ -96,7 +96,7 @@ func buildMarkdownReport(result *models.ScanResult) string {
 	if result.TLSResults != nil {
 		sb.WriteString("## 🔐 TLS/SSL Configuration\n\n")
 		sb.WriteString(fmt.Sprintf("**Security Score**: %d/100\n\n", result.TLSResults.Score))
-		
+
 		status := "✅ Secure"
 		if !result.TLSResults.IsSecure {
 			status = "❌ Insecure"
@@ -113,7 +113,7 @@ func buildMarkdownReport(result *models.ScanResult) string {
 			sb.WriteString(fmt.Sprintf("- **Issuer**: %s\n", result.TLSResults.Certificate.Issuer))
 			sb.WriteString(fmt.Sprintf("- **Valid From**: %s\n", result.TLSResults.Certificate.ValidFrom.Format("2006-01-02")))
 			sb.WriteString(fmt.Sprintf("- **Valid To**: %s\n", result.TLSResults.Certificate.ValidTo.Format("2006-01-02")))
-			
+
 			if result.TLSResults.Certificate.IsExpired {
 				sb.WriteString("- **Status**: ❌ **EXPIRED**\n\n")
 			} else {
@@ -143,7 +143,7 @@ func buildMarkdownReport(result *models.ScanResult) string {
 	if len(result.SQLiResults) > 0 {
 		sb.WriteString("## 💉 SQL Injection Vulnerabilities\n\n")
 		sb.WriteString(fmt.Sprintf("**Found**: %d vulnerabilities\n\n", len(result.SQLiResults)))
-		
+
 		sb.WriteString("| Severity | Location | Payload | Evidence |\n")
 		sb.WriteString("|----------|----------|---------|----------|\n")
 		for _, vuln := range result.SQLiResults {
@@ -167,7 +167,7 @@ func buildMarkdownReport(result *models.ScanResult) string {
 	if len(result.XSSResults) > 0 {
 		sb.WriteString("## 🎯 Cross-Site Scripting (XSS) Vulnerabilities\n\n")
 		sb.WriteString(fmt.Sprintf("**Found**: %d vulnerabilities\n\n", len(result.XSSResults)))
-		
+
 		sb.WriteString("| Severity | Location | Payload | Evidence |\n")
 		sb.WriteString("|----------|----------|---------|----------|\n")
 		for _, vuln := range result.XSSResults {
@@ -191,7 +191,7 @@ func buildMarkdownReport(result *models.ScanResult) string {
 	if result.NmapResults != nil && len(result.NmapResults.OpenPorts) > 0 {
 		sb.WriteString("## 🔌 Open Ports\n\n")
 		sb.WriteString(fmt.Sprintf("**Scan Duration**: %v\n\n", result.NmapResults.Duration.Round(time.Second)))
-		
+
 		sb.WriteString("| Port | Protocol | State | Service | Version |\n")
 		sb.WriteString("|------|----------|-------|---------|----------|\n")
 		for _, port := range result.NmapResults.OpenPorts {
@@ -217,7 +217,7 @@ func buildExecutiveSummary(result *models.ScanResult) string {
 	var sb strings.Builder
 
 	totalVulns := len(result.SQLiResults) + len(result.XSSResults)
-	
+
 	if totalVulns == 0 && result.HeaderResults != nil && result.HeaderResults.SecurityScore > 70 &&
 		result.TLSResults != nil && result.TLSResults.IsSecure {
 		sb.WriteString("✅ **Good Security Posture**: No critical vulnerabilities detected. ")

@@ -18,8 +18,8 @@ func ScanTLS(target *models.TargetInfo) (*models.TLSScan, error) {
 	// Only scan HTTPS targets
 	if target.Protocol != "https" {
 		return &models.TLSScan{
-			IsSecure: false,
-			Score:    0,
+			IsSecure:        false,
+			Score:           0,
 			Vulnerabilities: []string{"Target is not using HTTPS"},
 		}, nil
 	}
@@ -52,9 +52,9 @@ func ScanTLS(target *models.TargetInfo) (*models.TLSScan, error) {
 	// Analyze certificate
 	if len(state.PeerCertificates) > 0 {
 		cert := state.PeerCertificates[0]
-		
+
 		daysToExpiry := int(time.Until(cert.NotAfter).Hours() / 24)
-		
+
 		scan.Certificate = models.CertificateInfo{
 			Issuer:       cert.Issuer.String(),
 			Subject:      cert.Subject.String(),
@@ -70,7 +70,7 @@ func ScanTLS(target *models.TargetInfo) (*models.TLSScan, error) {
 			scan.IsSecure = false
 			scan.Score -= 50
 		} else if daysToExpiry < 30 {
-			scan.Vulnerabilities = append(scan.Vulnerabilities, 
+			scan.Vulnerabilities = append(scan.Vulnerabilities,
 				fmt.Sprintf("Certificate expires soon (%d days)", daysToExpiry))
 			scan.Score -= 10
 		}
@@ -138,12 +138,12 @@ func getTLSVersion(version uint16) string {
 // isWeakCipher checks if cipher suite is considered weak
 func isWeakCipher(suite uint16) bool {
 	weakCiphers := map[uint16]bool{
-		tls.TLS_RSA_WITH_RC4_128_SHA:                true,
-		tls.TLS_RSA_WITH_3DES_EDE_CBC_SHA:           true,
-		tls.TLS_RSA_WITH_AES_128_CBC_SHA:            true, // CBC mode
-		tls.TLS_RSA_WITH_AES_256_CBC_SHA:            true, // CBC mode
-		tls.TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA:     true,
-		tls.TLS_ECDHE_RSA_WITH_RC4_128_SHA:          true,
+		tls.TLS_RSA_WITH_RC4_128_SHA:            true,
+		tls.TLS_RSA_WITH_3DES_EDE_CBC_SHA:       true,
+		tls.TLS_RSA_WITH_AES_128_CBC_SHA:        true, // CBC mode
+		tls.TLS_RSA_WITH_AES_256_CBC_SHA:        true, // CBC mode
+		tls.TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA: true,
+		tls.TLS_ECDHE_RSA_WITH_RC4_128_SHA:      true,
 	}
 
 	return weakCiphers[suite]

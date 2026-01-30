@@ -72,23 +72,23 @@ func TestValidateAndParseURL(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			result, err := ValidateAndParseURL(tt.input)
-			
+
 			if tt.wantErr {
 				if err == nil {
 					t.Errorf("ValidateAndParseURL() expected error but got none")
 				}
 				return
 			}
-			
+
 			if err != nil {
 				t.Errorf("ValidateAndParseURL() unexpected error: %v", err)
 				return
 			}
-			
+
 			if result.Domain != tt.wantHost {
 				t.Errorf("ValidateAndParseURL() domain = %v, want %v", result.Domain, tt.wantHost)
 			}
-			
+
 			if result.Protocol != tt.wantProto {
 				t.Errorf("ValidateAndParseURL() protocol = %v, want %v", result.Protocol, tt.wantProto)
 			}
