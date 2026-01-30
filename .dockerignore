@@ -1,0 +1,61 @@
+# Binaries
+autosecscan
+autosecscan.exe
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test binary
+*.test
+
+# Coverage
+*.out
+coverage.txt
+
+# Go workspace
+go.work
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Reports (keep local only)
+reports/
+*.html
+*.md
+
+# Logs
+*.log
+scan-*.log
+
+# Temporary
+tmp/
+temp/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation (build only)
+README.md
+LICENSE
+docs/
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.circleci/
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose.yml

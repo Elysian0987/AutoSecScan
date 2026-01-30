@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  autosecscan:
+    build: .
+    image: autosecscan:latest
+    container_name: autosecscan
+    volumes:
+      # Mount reports directory to persist scan results
+      - ./reports:/app/reports
+    environment:
+      # Optional: Set timezone
+      - TZ=UTC
+    # Example: Scan a target
+    # docker-compose run --rm autosecscan https://example.com
+    command: ["--help"]
+    networks:
+      - scan-network
+    # Security options
+    security_opt:
+      - no-new-privileges:true
+    read_only: false
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_RAW  # Required for Nmap
+      - NET_ADMIN  # Required for Nmap
+
+networks:
+  scan-network:
+    driver: bridge
